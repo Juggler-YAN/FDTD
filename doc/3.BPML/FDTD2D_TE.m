@@ -1,11 +1,11 @@
 % This program demonstrates a two-dimensional FDTD simulation(Modified TE).
 % The program mainly simulates the propagation of electromagnetic wave in 
 % free space. The excitation source is a harmonic field source. The
-% simplest PEC boundary condition is used as the boundary condition.
+% BPML boundary condition is used as the boundary condition.
 
 % 该程序演示了二维FDTD模拟(修改后的TE)。
 % 该程序主要模拟了电磁波在自由空间中的传播，激励源为时谐场源，边界条件采用了
-% 最简单的PEC边界条件。
+% BPML边界条件。
 
 clc;
 clear;
