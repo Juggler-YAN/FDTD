@@ -269,7 +269,7 @@ for n=1:Nt
         end
     end
     % Ez∑÷¡—≥…Ezx∫ÕEzy
-    for k  = 1+bpml:Nz+bpml+1
+    for k   = 1+bpml:Nz+bpml+1
 %         Ezx(i,j) = exp(-sigEzx1(i)*dt/eps0)*Ezx(i,j)+(1-exp(-sigEzx1(i)*dt/eps0))/(dx*sigEzx1(i))*(Hyz(i,j)-Hyz(i-1,j)+Hyx(i,j)-Hyx(i-1,j));
 %         Ezy(i,j) = Ezy(i,j)-1/(2*z0)*(Hxy(i,j)-Hxy(i,j-1)+Hxz(i,j)-Hxz(i,j-1));
 %         Ezx(i,j) = Ezx(i,j)+1/(2*z0)*(Hyz(i,j)-Hyz(i-1,j)+Hyx(i,j)-Hyx(i-1,j));
