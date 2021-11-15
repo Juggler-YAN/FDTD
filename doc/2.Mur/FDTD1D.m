@@ -3,48 +3,48 @@
 % directionin free space. The excitation source is a harmonic field source.
 % The Mur absorbing boundary condition is used as the boundary condition.
 
-% ¸Ã³ÌÐòÑÝÊ¾ÁËÒ»Î¬FDTDÄ£Äâ¡£
-% ¸Ã³ÌÐòÖ÷ÒªÄ£ÄâÁËµç´Å²¨ÔÚ×ÔÓÉ¿Õ¼äÖÐz·½ÏòÉÏµÄ´«²¥£¬¼¤ÀøÔ´ÎªÊ±Ð³³¡Ô´£¬±ß½çÌõ¼þ
-% ²ÉÓÃÁËMurÎüÊÕ±ß½çÌõ¼þ¡£
+% ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½Ò»Î¬FDTDÄ£ï¿½â¡£
+% ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÄ£ï¿½ï¿½ï¿½Ëµï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿Õ¼ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ÏµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ÎªÊ±Ð³ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½
+% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Murï¿½ï¿½ï¿½Õ±ß½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 clc;
 clear;
 close all;
 
 %***********************************************************************
-% Fundamental constants »ù±¾³£Êý
+% Fundamental constants ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-eps0 = 8.85e-12;	% permittivity of vacuum Õæ¿Õ½éµç³£Êý
-mu0 = 4*pi*1e-7;	% permeability of vacuum Õæ¿Õ´Åµ¼ÂÊ
-c0 = 1/sqrt(mu0*eps0);	% speed of light ¹âËÙ
+eps0 = 8.85e-12;	% permittivity of vacuum ï¿½ï¿½Õ½ï¿½ç³£ï¿½ï¿½
+mu0 = 4*pi*1e-7;	% permeability of vacuum ï¿½ï¿½Õ´Åµï¿½ï¿½ï¿½
+c0 = 1/sqrt(mu0*eps0);	% speed of light ï¿½ï¿½ï¿½ï¿½
 
 %***********************************************************************
-% Mesh parameters Íø¸ñ²ÎÊý
+% Mesh parameters ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-Nz = 100;	% number of cells in 1D problem space Ò»Î¬ÎÊÌâ¿Õ¼äÖÐµÄµ¥ÔªÊý
-Nt = 150;	% number of iterations µü´ú´ÎÊý
-dz = 3e-2;	% space step ¿Õ¼ä²½³¤
-dt = 1/(2.0*c0*sqrt(1/dz^2));	%time step Ê±¼ä²½³¤
+Nz = 100;	% number of cells in 1D problem space Ò»Î¬ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ÐµÄµï¿½Ôªï¿½ï¿½
+Nt = 150;	% number of iterations ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+dz = 3e-2;	% space step ï¿½Õ¼ä²½ï¿½ï¿½
+dt = 1/(2.0*c0*sqrt(1/dz^2));	%time step Ê±ï¿½ä²½ï¿½ï¿½
 
 %***********************************************************************
-% Material properties Ã½ÖÊÌØÐÔ
+% Material properties Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-epsR = 1;	% relative permittivity Ïà¶Ô½éµç³£Êý
-muR = 1;	% relative permeability Ïà¶Ô´Åµ¼ÂÊ
-sigE = 0;	% electric conductivity µçµ¼ÂÊ
-sigH = 0;	% effective magnetism conductivity µÈÐ§´Åµ¼ÂÊ
+epsR = 1;	% relative permittivity ï¿½ï¿½Ô½ï¿½ç³£ï¿½ï¿½
+muR = 1;	% relative permeability ï¿½ï¿½Ô´Åµï¿½ï¿½ï¿½
+sigE = 0;	% electric conductivity ï¿½çµ¼ï¿½ï¿½
+sigH = 0;	% effective magnetism conductivity ï¿½ï¿½Ð§ï¿½Åµï¿½ï¿½ï¿½
 
 %***********************************************************************
-% Boundary conditions ±ß½çÌõ¼þ
+% Boundary conditions ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-% PEC±ß½çÌõ¼þ
+% PECï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 %***********************************************************************
-% Updating coefficients ¸üÐÂÏµÊý
+% Updating coefficients ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
 %***********************************************************************
 
 CA = (eps0*epsR/dt-sigE/2)/(eps0*epsR/dt+sigE/2);
@@ -53,64 +53,64 @@ CP = (mu0*muR/dt-sigH/2)/(mu0*muR/dt+sigH/2);
 CQ = 1/(mu0*muR/dt+sigH/2);
 
 %***********************************************************************
-% Source excitation Ô´¼¤Àø
+% Source excitation Ô´ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-fre = 1.0e+9; % frequency ¼¤ÀøÔ´ÆµÂÊ
-Jz = round(Nz/2);   % position ¼¤ÀøÔ´Î»ÖÃ
+fre = 1.0e+9; % frequency ï¿½ï¿½ï¿½ï¿½Ô´Æµï¿½ï¿½
+Jz = round(Nz/2);   % position ï¿½ï¿½ï¿½ï¿½Ô´Î»ï¿½ï¿½
 
 %***********************************************************************
-% Initializing field arrays ³õÊ¼»¯³¡
+% Initializing field arrays ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
 Ex = zeros(Nz+1,1);
 Hy = zeros(Nz,1);
 
 %***********************************************************************
-% BEGIN TIME-STEPPING LOOP ¿ªÊ¼Ñ­»·
+% BEGIN TIME-STEPPING LOOP ï¿½ï¿½Ê¼Ñ­ï¿½ï¿½
 %***********************************************************************
 
 for n=1:Nt
     
-    % Set excitation source ÉèÖÃ¼¤ÀøÔ´
+    % Set excitation source ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½Ô´
 %     Ex(1) = sin(2.0*pi*fre*dt*n);
 %     Ex(Jz) = 1;
     Ex(Jz) = sin(2.0*pi*fre*dt*n);
 %     Ex(Nz+1) = sin(2.0*pi*fre*dt*n);
 
-    % Update magnetic field ¸üÐÂ´Å³¡
+    % Update magnetic field ï¿½ï¿½ï¿½Â´Å³ï¿½
     for k = 1:Nz
         Hy(k) = CP*Hy(k)-CQ*(Ex(k+1)-Ex(k))/dz;
     end
     
     tempx = Ex;
     
-    % Update electric field ¸üÐÂµç³¡
+    % Update electric field ï¿½ï¿½ï¿½Âµç³¡
     for k = 2:Nz
         Ex(k) = CA*Ex(k)-CB*(Hy(k)-Hy(k-1))/dz;
     end
    
-    % Set boundary conditions ÉèÖÃ±ß½çÌõ¼þ
-    % MurÒ»½×½üËÆ·¨
+    % Set boundary conditions ï¿½ï¿½ï¿½Ã±ß½ï¿½ï¿½ï¿½ï¿½ï¿½
+    % MurÒ»ï¿½×½ï¿½ï¿½Æ·ï¿½
 %     Ex(1) = tempx(2)+((c0*dt-dz)/(c0*dt+dz))*(Ex(2)-tempx(1));
 %     Ex(Nz+1) = tempx(Nz)+((c0*dt-dz)/(c0*dt+dz))*(Ex(Nz)-tempx(Nz+1));
-    % ÐÐ²¨ÑÓÊ±·¨
+    % ï¿½Ð²ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 %     Ex(1) = tempx(1)-c0*dt/dz*(tempx(1)-tempx(2));
 %     Ex(Nz+1) = tempx(Nz+1)-c0*dt/dz*(tempx(Nz+1)-tempx(Nz));
-    % ²¨×è¿¹·¨
+    % ï¿½ï¿½ï¿½è¿¹ï¿½ï¿½
     Z0 = sqrt((muR*mu0)/(epsR*eps0));
     Ex(1) = -Z0*Hy(1);
     Ex(Nz+1) = Z0*Hy(Nz);
     
-    % Visualize fields ¿ÉÊÓ»¯³¡
+    % Visualize fields ï¿½ï¿½ï¿½Ó»ï¿½ï¿½ï¿½
     subplot(2,1,1),plot(Ex,'r');
     xlabel('z');ylabel(['Ex, step ',int2str(n)]);axis([0 100 -2 2]);
     subplot(2,1,2),plot(Hy,'b');
     xlabel('z');ylabel(['Hy, step ',int2str(n)]);axis([0 100 -5e-3 5e-3]);
-    pause(0.01);
+    drawnow;
 
 end
 
 %***********************************************************************
-% END TIME-STEPPING LOOP ½áÊøÑ­»·
+% END TIME-STEPPING LOOP ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 %***********************************************************************

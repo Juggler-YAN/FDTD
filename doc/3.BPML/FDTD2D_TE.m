@@ -3,45 +3,45 @@
 % free space. The excitation source is a harmonic field source. The
 % BPML boundary condition is used as the boundary condition.
 
-% ¸Ã³ÌÐòÑÝÊ¾ÁË¶þÎ¬FDTDÄ£Äâ(ÐÞ¸ÄºóµÄTE)¡£
-% ¸Ã³ÌÐòÖ÷ÒªÄ£ÄâÁËµç´Å²¨ÔÚ×ÔÓÉ¿Õ¼äÖÐµÄ´«²¥£¬¼¤ÀøÔ´ÎªÊ±Ð³³¡Ô´£¬±ß½çÌõ¼þ²ÉÓÃÁË
-% BPML±ß½çÌõ¼þ¡£
+% ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ë¶ï¿½Î¬FDTDÄ£ï¿½ï¿½(ï¿½Þ¸Äºï¿½ï¿½TE)ï¿½ï¿½
+% ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÄ£ï¿½ï¿½ï¿½Ëµï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿Õ¼ï¿½ï¿½ÐµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ÎªÊ±Ð³ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+% BPMLï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 clc;
 clear;
 close all;
 
 %***********************************************************************
-% Fundamental constants »ù±¾³£Êý
+% Fundamental constants ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-eps0 = 8.85e-12;	% permittivity of vacuum Õæ¿Õ½éµç³£Êý
-mu0 = 4*pi*1e-7;	% permeability of vacuum Õæ¿Õ´Åµ¼ÂÊ
-c0 = 1/sqrt(mu0*eps0);	% speed of light ¹âËÙ
-z0 = sqrt(mu0/eps0);    % Wave impedance of vacuum Õæ¿ÕÖÐµÄ²¨×è¿¹
+eps0 = 8.85e-12;	% permittivity of vacuum ï¿½ï¿½Õ½ï¿½ç³£ï¿½ï¿½
+mu0 = 4*pi*1e-7;	% permeability of vacuum ï¿½ï¿½Õ´Åµï¿½ï¿½ï¿½
+c0 = 1/sqrt(mu0*eps0);	% speed of light ï¿½ï¿½ï¿½ï¿½
+z0 = sqrt(mu0/eps0);    % Wave impedance of vacuum ï¿½ï¿½ï¿½ï¿½ÐµÄ²ï¿½ï¿½è¿¹
 
 %***********************************************************************
-% Mesh parameters Íø¸ñ²ÎÊý
+% Mesh parameters ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-Nx = 50;	% number of cells in 2D problem space ¶þÎ¬ÎÊÌâ¿Õ¼äÖÐµÄµ¥ÔªÊý
+Nx = 50;	% number of cells in 2D problem space ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ÐµÄµï¿½Ôªï¿½ï¿½
 Ny = 50;
-Nt = 300;	% number of iterations µü´ú´ÎÊý
-dx = 3e-2;	% space step ¿Õ¼ä²½³¤
+Nt = 300;	% number of iterations ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+dx = 3e-2;	% space step ï¿½Õ¼ä²½ï¿½ï¿½
 dy = 3e-2;
-dt = 1/(2.0*c0*sqrt(1/dx^2+1/dy^2));	%time step Ê±¼ä²½³¤
+dt = 1/(2.0*c0*sqrt(1/dx^2+1/dy^2));	%time step Ê±ï¿½ä²½ï¿½ï¿½
 
 %***********************************************************************
-% Material properties Ã½ÖÊÌØÐÔ
+% Material properties Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-epsR = 1;	% relative permittivity Ïà¶Ô½éµç³£Êý
-muR = 1;	% relative permeability Ïà¶Ô´Åµ¼ÂÊ
-sigE = 0;	% electric conductivity µçµ¼ÂÊ
-sigH = 0;	% effective magnetism conductivity µÈÐ§´Åµ¼ÂÊ
+epsR = 1;	% relative permittivity ï¿½ï¿½Ô½ï¿½ç³£ï¿½ï¿½
+muR = 1;	% relative permeability ï¿½ï¿½Ô´Åµï¿½ï¿½ï¿½
+sigE = 0;	% electric conductivity ï¿½çµ¼ï¿½ï¿½
+sigH = 0;	% effective magnetism conductivity ï¿½ï¿½Ð§ï¿½Åµï¿½ï¿½ï¿½
 
 %***********************************************************************
-% Boundary conditions ±ß½çÌõ¼þ
+% Boundary conditions ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
 bpml = 8;
@@ -55,18 +55,18 @@ sigEy = zeros(Ny+2*bpml,1);
 sigHx = zeros(Nx+2*bpml+1,1);
 sigHy = zeros(Ny+2*bpml+1,1);
 for i = 1:bpml
-    sigEx(bpml+1-i) = sigExmax*(i/bpml)^m; % ×ó
-    sigEy(bpml+1-i) = sigEymax*(i/bpml)^m; % ÏÂ
-    sigEx(Nx+bpml+i) = sigExmax*(i/bpml)^m;	% ÓÒ
-    sigEy(Ny+bpml+i) = sigEymax*(i/bpml)^m;	% ÉÏ
-    sigHx(bpml+1-i) = sigHxmax*(i/bpml)^m; % ×ó
-    sigHy(bpml+1-i) = sigHymax*(i/bpml)^m; % ÏÂ
-    sigHx(Nx+bpml+1+i) = sigHxmax*(i/bpml)^m;	% ÓÒ
-    sigHy(Ny+bpml+1+i) = sigHymax*(i/bpml)^m;	% ÉÏ
+    sigEx(bpml+1-i) = sigExmax*(i/bpml)^m; % ï¿½ï¿½
+    sigEy(bpml+1-i) = sigEymax*(i/bpml)^m; % ï¿½ï¿½
+    sigEx(Nx+bpml+i) = sigExmax*(i/bpml)^m;	% ï¿½ï¿½
+    sigEy(Ny+bpml+i) = sigEymax*(i/bpml)^m;	% ï¿½ï¿½
+    sigHx(bpml+1-i) = sigHxmax*(i/bpml)^m; % ï¿½ï¿½
+    sigHy(bpml+1-i) = sigHymax*(i/bpml)^m; % ï¿½ï¿½
+    sigHx(Nx+bpml+1+i) = sigHxmax*(i/bpml)^m;	% ï¿½ï¿½
+    sigHy(Ny+bpml+1+i) = sigHymax*(i/bpml)^m;	% ï¿½ï¿½
 end
 
 %***********************************************************************
-% Updating coefficients ¸üÐÂÏµÊý
+% Updating coefficients ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
 %***********************************************************************
 
 CA = (eps0*epsR/dt-sigE/2)/(eps0*epsR/dt+sigE/2);
@@ -75,15 +75,15 @@ CP = (mu0*muR/dt-sigH/2)/(mu0*muR/dt+sigH/2);
 CQ = 1/(mu0*muR/dt+sigH/2);
 
 %***********************************************************************
-% Source excitation Ô´¼¤Àø
+% Source excitation Ô´ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-fre = 1.0e+9; % frequency ¼¤ÀøÔ´ÆµÂÊ
-Jx = round(Nx/2);	% position ¼¤ÀøÔ´Î»ÖÃ
+fre = 1.0e+9; % frequency ï¿½ï¿½ï¿½ï¿½Ô´Æµï¿½ï¿½
+Jx = round(Nx/2);	% position ï¿½ï¿½ï¿½ï¿½Ô´Î»ï¿½ï¿½
 Jy = round(Ny/2);
 
 %***********************************************************************
-% Initializing field arrays ³õÊ¼»¯³¡
+% Initializing field arrays ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
 Ex = zeros(Nx+2*bpml+1,Ny+2*bpml);
@@ -93,15 +93,15 @@ Hzx = zeros(Nx+2*bpml+1,Ny+2*bpml+1);
 Hzy = zeros(Nx+2*bpml+1,Ny+2*bpml+1);
 
 %***********************************************************************
-% BEGIN TIME-STEPPING LOOP ¿ªÊ¼Ñ­»·
+% BEGIN TIME-STEPPING LOOP ï¿½ï¿½Ê¼Ñ­ï¿½ï¿½
 %***********************************************************************
 
 for n=1:Nt
     
-    % Set excitation source ÉèÖÃ¼¤ÀøÔ´
+    % Set excitation source ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½Ô´
     Hz(Jx,Jy) = sin(2*pi*fre*n*dt);
     
-    % Update electric field ¸üÐÂµç³¡
+    % Update electric field ï¿½ï¿½ï¿½Âµç³¡
     % Ex
     for i = 1+bpml:Nx+bpml+1
         for j = 1+bpml:Ny+bpml
@@ -115,7 +115,7 @@ for n=1:Nt
         end
     end
     % PML
-    % ×ó
+    % ï¿½ï¿½
     for i = 1:bpml
         for j = 1+bpml:Ny+bpml
             Ex(i,j) = Ex(i,j)+z0/2*(Hz(i,j+1)-Hz(i,j));
@@ -126,7 +126,7 @@ for n=1:Nt
             Ey(i,j) = exp(-sigEx(i)*dt/eps0)*Ey(i,j)-(1-exp(-sigEx(i)*dt/eps0))/(dx*sigEx(i))*(Hz(i+1,j)-Hz(i,j));
         end
     end
-    % ÓÒ
+    % ï¿½ï¿½
     for i = Nx+bpml+2:Nx+2*bpml+1
         for j = 1+bpml:Ny+bpml
             Ex(i,j) = Ex(i,j)+z0/2*(Hz(i,j+1)-Hz(i,j));
@@ -137,7 +137,7 @@ for n=1:Nt
             Ey(i,j) = exp(-sigEx(i)*dt/eps0)*Ey(i,j)-(1-exp(-sigEx(i)*dt/eps0))/(dx*sigEx(i))*(Hz(i+1,j)-Hz(i,j));
         end
     end
-    % ÏÂ
+    % ï¿½ï¿½
     for i = 1+bpml:Nx+bpml+1
         for j = 1:bpml
             Ex(i,j) = exp(-sigEy(j)*dt/eps0)*Ex(i,j)+(1-exp(-sigEy(j)*dt/eps0))/(dy*sigEy(j))*(Hz(i,j+1)-Hz(i,j));
@@ -148,7 +148,7 @@ for n=1:Nt
             Ey(i,j) = Ey(i,j)-z0/2*(Hz(i+1,j)-Hz(i,j));
         end
     end
-    % ÉÏ
+    % ï¿½ï¿½
     for i = 1+bpml:Nx+bpml+1
         for j = Ny+bpml+1:Ny+2*bpml
             Ex(i,j) = exp(-sigEy(j)*dt/eps0)*Ex(i,j)+(1-exp(-sigEy(j)*dt/eps0))/(dy*sigEy(j))*(Hz(i,j+1)-Hz(i,j));
@@ -159,8 +159,8 @@ for n=1:Nt
             Ey(i,j) = Ey(i,j)-z0/2*(Hz(i+1,j)-Hz(i,j));
         end
     end
-    % ËÄ¸ö½Ç
-    % ×óÏÂ
+    % ï¿½Ä¸ï¿½ï¿½ï¿½
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 1:bpml
         for j = 1:bpml
             Ex(i,j) = exp(-sigEy(j)*dt/eps0)*Ex(i,j)+(1-exp(-sigEy(j)*dt/eps0))/(dy*sigEy(j))*(Hz(i,j+1)-Hz(i,j));
@@ -171,7 +171,7 @@ for n=1:Nt
             Ey(i,j) = exp(-sigEx(i)*dt/eps0)*Ey(i,j)-(1-exp(-sigEx(i)*dt/eps0))/(dx*sigEx(i))*(Hz(i+1,j)-Hz(i,j));
         end
     end
-    % ×óÉÏ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 1:bpml
         for j = Ny+bpml+1:Ny+2*bpml
             Ex(i,j) = exp(-sigEy(j)*dt/eps0)*Ex(i,j)+(1-exp(-sigEy(j)*dt/eps0))/(dy*sigEy(j))*(Hz(i,j+1)-Hz(i,j));
@@ -182,7 +182,7 @@ for n=1:Nt
             Ey(i,j) = exp(-sigEx(i)*dt/eps0)*Ey(i,j)-(1-exp(-sigEx(i)*dt/eps0))/(dx*sigEx(i))*(Hz(i+1,j)-Hz(i,j));
         end
     end
-    % ÓÒÉÏ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = Nx+bpml+2:Nx+2*bpml+1
         for j = Ny+bpml+1:Ny+2*bpml
             Ex(i,j) = exp(-sigEy(j)*dt/eps0)*Ex(i,j)+(1-exp(-sigEy(j)*dt/eps0))/(dy*sigEy(j))*(Hz(i,j+1)-Hz(i,j));
@@ -193,7 +193,7 @@ for n=1:Nt
             Ey(i,j) = exp(-sigEx(i)*dt/eps0)*Ey(i,j)-(1-exp(-sigEx(i)*dt/eps0))/(dx*sigEx(i))*(Hz(i+1,j)-Hz(i,j));
         end
     end
-    % ÓÒÏÂ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = Nx+bpml+2:Nx+2*bpml+1
         for j = 1:bpml
             Ex(i,j) = exp(-sigEy(j)*dt/eps0)*Ex(i,j)+(1-exp(-sigEy(j)*dt/eps0))/(dy*sigEy(j))*(Hz(i,j+1)-Hz(i,j));
@@ -205,7 +205,7 @@ for n=1:Nt
         end
     end
 
-    % Update magnetic field ¸üÐÂ´Å³¡
+    % Update magnetic field ï¿½ï¿½ï¿½Â´Å³ï¿½
     % Hz
     for i = 1+bpml:Nx+bpml+1
         for j = 1+bpml:Ny+bpml+1
@@ -214,7 +214,7 @@ for n=1:Nt
         end
     end
     % PML
-    % ×ó
+    % ï¿½ï¿½
     for i = 2:bpml
         for j = 1+bpml:Ny+bpml+1
             Hzx(i,j) = exp(-sigHx(i)*dt/mu0)*Hzx(i,j)-(1-exp(-sigHx(i)*dt/mu0))/(dx*sigHx(i))*(Ey(i,j)-Ey(i-1,j));
@@ -222,7 +222,7 @@ for n=1:Nt
             Hz(i,j) = Hzx(i,j)+Hzy(i,j);
         end
     end
-    % ÓÒ
+    % ï¿½ï¿½
     for i = Nx+bpml+2:Nx+2*bpml
         for j = 1+bpml:Ny+bpml+1
             Hzx(i,j) = exp(-sigHx(i)*dt/mu0)*Hzx(i,j)-(1-exp(-sigHx(i)*dt/mu0))/(dx*sigHx(i))*(Ey(i,j)-Ey(i-1,j));
@@ -230,7 +230,7 @@ for n=1:Nt
             Hz(i,j) = Hzx(i,j)+Hzy(i,j);
         end
     end
-    % ÏÂ
+    % ï¿½ï¿½
     for i = 1+bpml:Nx+bpml+1
         for j = 2:bpml
             Hzx(i,j) = Hzx(i,j)-1/(2*z0)*(Ey(i,j)-Ey(i-1,j));
@@ -238,7 +238,7 @@ for n=1:Nt
             Hz(i,j) = Hzx(i,j)+Hzy(i,j);
         end
     end
-    % ÉÏ
+    % ï¿½ï¿½
     for i = 1+bpml:Nx+bpml+1
         for j = Ny+bpml+2:Ny+2*bpml
             Hzx(i,j) = Hzx(i,j)-1/(2*z0)*(Ey(i,j)-Ey(i-1,j));
@@ -246,8 +246,8 @@ for n=1:Nt
             Hz(i,j) = Hzx(i,j)+Hzy(i,j);
         end
     end
-    % ËÄ¸ö½Ç
-    % ×óÏÂ
+    % ï¿½Ä¸ï¿½ï¿½ï¿½
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 2:bpml
         for j = 2:bpml
             Hzx(i,j) = exp(-sigHx(i)*dt/mu0)*Hzx(i,j)-(1-exp(-sigHx(i)*dt/mu0))/(dx*sigHx(i))*(Ey(i,j)-Ey(i-1,j));
@@ -255,7 +255,7 @@ for n=1:Nt
             Hz(i,j) = Hzx(i,j)+Hzy(i,j);
         end
     end
-    % ×óÉÏ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 2:bpml
         for j = Ny+bpml+2:Ny+2*bpml
             Hzx(i,j) = exp(-sigHx(i)*dt/mu0)*Hzx(i,j)-(1-exp(-sigHx(i)*dt/mu0))/(dx*sigHx(i))*(Ey(i,j)-Ey(i-1,j));
@@ -263,7 +263,7 @@ for n=1:Nt
             Hz(i,j) = Hzx(i,j)+Hzy(i,j);
         end
     end
-    % ÓÒÉÏ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = Nx+bpml+2:Nx+2*bpml
         for j = Ny+bpml+2:Ny+2*bpml
             Hzx(i,j) = exp(-sigHx(i)*dt/mu0)*Hzx(i,j)-(1-exp(-sigHx(i)*dt/mu0))/(dx*sigHx(i))*(Ey(i,j)-Ey(i-1,j));
@@ -271,7 +271,7 @@ for n=1:Nt
             Hz(i,j) = Hzx(i,j)+Hzy(i,j);
         end
     end
-    % ÓÒÏÂ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = Nx+bpml+2:Nx+2*bpml
         for j = 2:bpml
             Hzx(i,j) = exp(-sigHx(i)*dt/mu0)*Hzx(i,j)-(1-exp(-sigHx(i)*dt/mu0))/(dx*sigHx(i))*(Ey(i,j)-Ey(i-1,j));
@@ -280,16 +280,16 @@ for n=1:Nt
         end
     end
          
-    % Set boundary conditions ÉèÖÃ±ß½çÌõ¼þ
+    % Set boundary conditions ï¿½ï¿½ï¿½Ã±ß½ï¿½ï¿½ï¿½ï¿½ï¿½
     
-    % Visualize fields ¿ÉÊÓ»¯³¡    
+    % Visualize fields ï¿½ï¿½ï¿½Ó»ï¿½ï¿½ï¿½    
     imagesc(Hz');
     shading flat;caxis([-1.0 1.0]);axis image;axis xy; 
     title(['Hz, step ',int2str(n)]);xlabel('i');ylabel('j');
-    pause(0.01);
+    drawnow;
 
 end
 
 %***********************************************************************
-% END TIME-STEPPING LOOP ½áÊøÑ­»·
+% END TIME-STEPPING LOOP ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 %***********************************************************************

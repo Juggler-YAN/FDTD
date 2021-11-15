@@ -3,52 +3,52 @@
 % directionin free space. The excitation source is a harmonic field source.
 % The Mur absorbing boundary condition is used as the boundary condition.
 
-% ¸Ã³ÌÐòÑÝÊ¾ÁËÈýÎ¬FDTDÄ£Äâ¡£
-% ¸Ã³ÌÐòÖ÷ÒªÄ£ÄâÁËµç´Å²¨ÔÚ×ÔÓÉ¿Õ¼äÖÐz·½ÏòÉÏµÄ´«²¥£¬¼¤ÀøÔ´ÎªÊ±Ð³³¡Ô´£¬±ß½çÌõ¼þ
-% ²ÉÓÃÁËMurÎüÊÕ±ß½çÌõ¼þ¡£
+% ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Î¬FDTDÄ£ï¿½â¡£
+% ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÄ£ï¿½ï¿½ï¿½Ëµï¿½Å²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿Õ¼ï¿½ï¿½ï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ÏµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ÎªÊ±Ð³ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½
+% ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Murï¿½ï¿½ï¿½Õ±ß½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 clc;
 clear;
 close all;
 
 %***********************************************************************
-% Fundamental constants »ù±¾³£Êý
+% Fundamental constants ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-eps0 = 8.85e-12;	% permittivity of vacuum Õæ¿Õ½éµç³£Êý
-mu0 = 4*pi*1e-7;	% permeability of vacuum Õæ¿Õ´Åµ¼ÂÊ
-c0 = 1/sqrt(mu0*eps0);	% speed of light ¹âËÙ
+eps0 = 8.85e-12;	% permittivity of vacuum ï¿½ï¿½Õ½ï¿½ç³£ï¿½ï¿½
+mu0 = 4*pi*1e-7;	% permeability of vacuum ï¿½ï¿½Õ´Åµï¿½ï¿½ï¿½
+c0 = 1/sqrt(mu0*eps0);	% speed of light ï¿½ï¿½ï¿½ï¿½
 
 %***********************************************************************
-% Mesh parameters Íø¸ñ²ÎÊý
+% Mesh parameters ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-Nx = 50;	% number of cells in 3D problem space ÈýÎ¬ÎÊÌâ¿Õ¼äÖÐµÄµ¥ÔªÊý
+Nx = 50;	% number of cells in 3D problem space ï¿½ï¿½Î¬ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ÐµÄµï¿½Ôªï¿½ï¿½
 Ny = 50;
 Nz = 50;
-Nt = 150;	% number of iterations µü´ú´ÎÊý
-dx = 3e-2;	% space step ¿Õ¼ä²½³¤
+Nt = 150;	% number of iterations ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+dx = 3e-2;	% space step ï¿½Õ¼ä²½ï¿½ï¿½
 dy = 3e-2;
 dz = 3e-2;
-dt = 1/(2.0*c0*sqrt(1/dx^2+1/dy^2+1/dz^2));	%time step Ê±¼ä²½³¤
+dt = 1/(2.0*c0*sqrt(1/dx^2+1/dy^2+1/dz^2));	%time step Ê±ï¿½ä²½ï¿½ï¿½
 
 %***********************************************************************
-% Material properties Ã½ÖÊÌØÐÔ
+% Material properties Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-epsR = 1;	% relative permittivity Ïà¶Ô½éµç³£Êý
-muR = 1;	% relative permeability Ïà¶Ô´Åµ¼ÂÊ
-sigE = 0;	% electric conductivity µçµ¼ÂÊ
-sigH = 0;	% effective magnetism conductivity µÈÐ§´Åµ¼ÂÊ
+epsR = 1;	% relative permittivity ï¿½ï¿½Ô½ï¿½ç³£ï¿½ï¿½
+muR = 1;	% relative permeability ï¿½ï¿½Ô´Åµï¿½ï¿½ï¿½
+sigE = 0;	% electric conductivity ï¿½çµ¼ï¿½ï¿½
+sigH = 0;	% effective magnetism conductivity ï¿½ï¿½Ð§ï¿½Åµï¿½ï¿½ï¿½
 
 %***********************************************************************
-% Boundary conditions ±ß½çÌõ¼þ
+% Boundary conditions ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-% PEC±ß½çÌõ¼þ
+% PECï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 %***********************************************************************
-% Updating coefficients ¸üÐÂÏµÊý
+% Updating coefficients ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
 %***********************************************************************
 
 CA = (eps0*epsR/dt-sigE/2)/(eps0*epsR/dt+sigE/2);
@@ -57,16 +57,16 @@ CP = (mu0*muR/dt-sigH/2)/(mu0*muR/dt+sigH/2);
 CQ = 1/(mu0*muR/dt+sigH/2);
 
 %***********************************************************************
-% Source excitation Ô´¼¤Àø
+% Source excitation Ô´ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
-fre = 1.0e+9; % frequency ¼¤ÀøÔ´ÆµÂÊ
-Jx = round(Nx/2);   % position ¼¤ÀøÔ´Î»ÖÃ
+fre = 1.0e+9; % frequency ï¿½ï¿½ï¿½ï¿½Ô´Æµï¿½ï¿½
+Jx = round(Nx/2);   % position ï¿½ï¿½ï¿½ï¿½Ô´Î»ï¿½ï¿½
 Jy = round(Ny/2);
 Jz = round(Nz/2);
 
 %***********************************************************************
-% Initializing field arrays ³õÊ¼»¯³¡
+% Initializing field arrays ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
 %***********************************************************************
 
 Ex = zeros(Nx,Ny+1,Nz+1);
@@ -77,7 +77,7 @@ Hy = zeros(Nx,Ny+1,Nz);
 Hz = zeros(Nx,Ny,Nz+1);
 
 %***********************************************************************
-% BEGIN TIME-STEPPING LOOP ¿ªÊ¼Ñ­»·
+% BEGIN TIME-STEPPING LOOP ï¿½ï¿½Ê¼Ñ­ï¿½ï¿½
 %***********************************************************************
 
 temp2x = Ex;
@@ -85,10 +85,10 @@ temp2y = Ey;
 temp2z = Ez;
 for n=1:Nt
 
-    % Set excitation source ÉèÖÃ¼¤ÀøÔ´
+    % Set excitation source ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½Ô´
     Ez(Jx,Jy,1:Nz) = sin(2*pi*fre*n*dt);
     
-    % Update magnetic field ¸üÐÂ´Å³¡
+    % Update magnetic field ï¿½ï¿½ï¿½Â´Å³ï¿½
     % Hx
     for i = 2:Nx
         for j = 1:Ny
@@ -124,7 +124,7 @@ for n=1:Nt
     tempy = Ey;
     tempz = Ez;
     
-    % Update electric field ¸üÐÂµç³¡
+    % Update electric field ï¿½ï¿½ï¿½Âµç³¡
     % Ex
     for i = 1:Nx
         for j = 2:Ny
@@ -156,10 +156,10 @@ for n=1:Nt
         end
     end
          
-    % Set boundary conditions ÉèÖÃ±ß½çÌõ¼þ
-    % MurÒ»½×
-%     % Ãæ
-%     % Ç°Ãæ
+    % Set boundary conditions ï¿½ï¿½ï¿½Ã±ß½ï¿½ï¿½ï¿½ï¿½ï¿½
+    % MurÒ»ï¿½ï¿½
+%     % ï¿½ï¿½
+%     % Ç°ï¿½ï¿½
 %     for j = 2:Ny-1
 %         for k = 2:Nz
 %             Ey(Nx+1,j,k) = tempy(Nx,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ey(Nx,j,k)-tempy(Nx+1,j,k));
@@ -170,7 +170,7 @@ for n=1:Nt
 %             Ez(Nx+1,j,k) = tempz(Nx,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ez(Nx,j,k)-tempz(Nx+1,j,k));
 %         end
 %     end
-%     % ºóÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for j = 2:Ny-1
 %         for k = 2:Nz
 %             Ey(1,j,k) = tempy(2,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ey(2,j,k)-tempy(1,j,k));
@@ -181,7 +181,7 @@ for n=1:Nt
 %             Ez(1,j,k) = tempz(2,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ez(2,j,k)-tempz(1,j,k));
 %         end
 %     end
-%     % ×óÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for k = 2:Nz
 %             Ex(i,1,k) = tempx(i,2,k)+((c0*dt-dy)/(c0*dt+dy))*(Ex(i,2,k)-tempx(i,1,k));
@@ -192,7 +192,7 @@ for n=1:Nt
 %             Ez(i,1,k) = tempz(i,2,k)+((c0*dt-dy)/(c0*dt+dy))*(Ez(i,2,k)-tempz(i,1,k));
 %         end
 %     end
-%     % ÓÒÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for k = 2:Nz
 %             Ex(i,Ny+1,k) = tempx(i,Ny,k)+((c0*dt-dy)/(c0*dt+dy))*(Ex(i,Ny,k)-tempx(i,Ny+1,k));
@@ -203,7 +203,7 @@ for n=1:Nt
 %             Ez(i,Ny+1,k) = tempz(i,Ny,k)+((c0*dt-dy)/(c0*dt+dy))*(Ez(i,Ny,k)-tempz(i,Ny+1,k));
 %         end
 %     end
-%     % ÉÏÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for j = 2:Ny
 %             Ex(i,j,Nz+1) = tempx(i,j,Nz)+((c0*dt-dz)/(c0*dt+dz))*(Ex(i,j,Nz)-tempx(i,j,Nz+1));
@@ -214,7 +214,7 @@ for n=1:Nt
 %             Ey(i,j,Nz+1) = tempy(i,j,Nz)+((c0*dt-dz)/(c0*dt+dz))*(Ey(i,j,Nz)-tempy(i,j,Nz+1));
 %         end
 %     end
-%     % ÏÂÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for j = 2:Ny
 %             Ex(i,j,1) = tempx(i,j,2)+((c0*dt-dz)/(c0*dt+dz))*(Ex(i,j,2)-tempx(i,j,1));
@@ -225,34 +225,34 @@ for n=1:Nt
 %             Ey(i,j,1) = tempy(i,j,2)+((c0*dt-dz)/(c0*dt+dz))*(Ey(i,j,2)-tempy(i,j,1));
 %         end
 %     end
-%     % ±ß
-%     % x·½Ïò
+%     % ï¿½ï¿½
+%     % xï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         Ex(i,1,1) = tempx(i,2,2)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,2,2)-tempx(i,1,1));
 %         Ex(i,1,Nz+1) = tempx(i,2,Nz)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,2,Nz)-tempx(i,1,Nz+1));
 %         Ex(i,Ny+1,Nz+1) = tempx(i,Ny,Nz)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,Ny,Nz)-tempx(i,Ny+1,Nz+1));
 %         Ex(i,Ny+1,1) = tempx(i,Ny,2)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,Ny,2)-tempx(i,Ny+1,1));
 %     end
-%     % y·½Ïò
+%     % yï¿½ï¿½ï¿½ï¿½
 %     for j = 2:Ny-1
 %         Ey(1,j,1) = tempy(2,j,2)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+sqrt(dx^2+dz^2)))*(Ey(2,j,2)-tempy(1,j,1));
 %         Ey(1,j,Nz+1) = tempy(2,j,Nz)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+sqrt(dx^2+dz^2)))*(Ey(2,j,Nz)-tempy(1,j,Nz+1));
 %         Ey(Nx+1,j,Nz+1) = tempy(Nx,j,Nz)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+sqrt(dx^2+dz^2)))*(Ey(Nx,j,Nz)-tempy(Nx+1,j,Nz+1));
 %         Ey(Nx+1,j,1) = tempy(Nx,j,2)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+sqrt(dx^2+dz^2)))*(Ey(Nx,j,2)-tempy(Nx+1,j,1));
 %     end
-%     % z·½Ïò
+%     % zï¿½ï¿½ï¿½ï¿½
 %     for k = 2:Nz-1
 %         Ez(1,1,k) = tempz(2,2,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(2,2,k)-tempz(1,1,k));
 %         Ez(1,Ny+1,k) = tempz(2,Ny,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(2,Ny,k)-tempz(1,Ny+1,k));
 %         Ez(Nx+1,Ny+1,k) = tempz(Nx,Ny,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(Nx,Ny,k)-tempz(Nx+1,Ny+1,k));
 %         Ez(Nx+1,1,k) = tempz(Nx,2,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(Nx,2,k)-tempz(Nx+1,1,k));
 %     end
-%     % µã
-%     % ½Çµã´¦ÎÞµç´Å³¡·ÖÁ¿½Úµã£¬²»ÓÃ´¦Àí
+%     % ï¿½ï¿½
+%     % ï¿½Çµã´¦ï¿½Þµï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµã£¬ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
 
-    % Mur¶þ½×
-%     % Ãæ
-%     % Ç°Ãæ
+    % Murï¿½ï¿½ï¿½ï¿½
+%     % ï¿½ï¿½
+%     % Ç°ï¿½ï¿½
 %     for j = 2:Ny-1
 %         for k = 2:Nz
 %             Ey(Nx+1,j,k) = -temp2y(Nx,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ey(Nx,j,k)+temp2y(Nx+1,j,k))+ ...
@@ -274,7 +274,7 @@ for n=1:Nt
 %                         
 %         end
 %     end
-%     % ºóÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for j = 2:Ny-1
 %         for k = 2:Nz
 %             Ey(1,j,k) = -temp2y(2,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ey(2,j,k)+temp2y(1,j,k))+ ...
@@ -295,7 +295,7 @@ for n=1:Nt
 %                         (tempz(1,j,k+1)-2*tempz(1,j,k)+tempz(1,j,k-1)+tempz(2,j,k+1)-2*tempz(2,j,k)+tempz(2,j,k-1));
 %         end
 %     end
-%     % ×óÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for k = 2:Nz
 %             Ex(i,1,k) = -temp2x(i,2,k)+((c0*dt-dy)/(c0*dt+dy))*(Ex(i,2,k)+temp2x(i,1,k))+ ...
@@ -316,7 +316,7 @@ for n=1:Nt
 %                         (tempz(i,1,k+1)-2*tempz(i,1,k)+tempz(i,1,k-1)+tempz(i,2,k+1)-2*tempz(i,2,k)+tempz(i,2,k-1));
 %         end
 %     end
-%     % ÓÒÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for k = 2:Nz
 %             Ex(i,Ny+1,k) = -temp2x(i,Ny,k)+((c0*dt-dy)/(c0*dt+dy))*(Ex(i,Ny,k)+temp2x(i,Ny+1,k))+ ...
@@ -337,7 +337,7 @@ for n=1:Nt
 %                            (tempz(i,Ny+1,k+1)-2*tempz(i,Ny+1,k)+tempz(i,Ny+1,k-1)+tempz(i,Ny,k+1)-2*tempz(i,Ny,k)+tempz(i,Ny,k-1));
 %         end
 %     end
-%     % ÉÏÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for j = 2:Ny
 %             Ex(i,j,Nz+1) = -temp2x(i,j,Nz)+((c0*dt-dz)/(c0*dt+dz))*(Ex(i,j,Nz)+temp2x(i,j,Nz+1))+ ...
@@ -358,7 +358,7 @@ for n=1:Nt
 %                            (tempy(i,j+1,Nz+1)-2*tempy(i,j,Nz+1)+tempy(i,j-1,Nz+1)+tempy(i,j+1,Nz)-2*tempy(i,j,Nz)+tempy(i,j-1,Nz));
 %         end
 %     end
-%     % ÏÂÃæ
+%     % ï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         for j = 2:Ny
 %             Ex(i,j,1) = -temp2x(i,j,2)+((c0*dt-dz)/(c0*dt+dz))*(Ex(i,j,2)+temp2x(i,j,1))+ ...
@@ -379,34 +379,34 @@ for n=1:Nt
 %                         (tempy(i,j+1,1)-2*tempy(i,j,1)+tempy(i,j-1,1)+tempy(i,j+1,2)-2*tempy(i,j,2)+tempy(i,j-1,2));
 %         end
 %     end
-%     % ±ß
-%     % x·½Ïò
+%     % ï¿½ï¿½
+%     % xï¿½ï¿½ï¿½ï¿½
 %     for i = 2:Nx-1
 %         Ex(i,1,1) = tempx(i,2,2)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,2,2)-tempx(i,1,1));
 %         Ex(i,1,Nz+1) = tempx(i,2,Nz)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,2,Nz)-tempx(i,1,Nz+1));
 %         Ex(i,Ny+1,Nz+1) = tempx(i,Ny,Nz)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,Ny,Nz)-tempx(i,Ny+1,Nz+1));
 %         Ex(i,Ny+1,1) = tempx(i,Ny,2)+((c0*dt-sqrt(dy^2+dz^2))/(c0*dt+sqrt(dy^2+dz^2)))*(Ex(i,Ny,2)-tempx(i,Ny+1,1));
 %     end
-%     % y·½Ïò
+%     % yï¿½ï¿½ï¿½ï¿½
 %     for j = 2:Ny-1
 %         Ey(1,j,1) = tempy(2,j,2)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+sqrt(dx^2+dz^2)))*(Ey(2,j,2)-tempy(1,j,1));
 %         Ey(1,j,Nz+1) = tempy(2,j,Nz)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+norm([dx,dz])))*(Ey(2,j,Nz)-tempy(1,j,Nz+1));
 %         Ey(Nx+1,j,Nz+1) = tempy(Nx,j,Nz)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+sqrt(dx^2+dz^2)))*(Ey(Nx,j,Nz)-tempy(Nx+1,j,Nz+1));
 %         Ey(Nx+1,j,1) = tempy(Nx,j,2)+((c0*dt-sqrt(dx^2+dz^2))/(c0*dt+sqrt(dx^2+dz^2)))*(Ey(Nx,j,2)-tempy(Nx+1,j,1));
 %     end
-%     % z·½Ïò
+%     % zï¿½ï¿½ï¿½ï¿½
 %     for k = 2:Nz-1
 %         Ez(1,1,k) = tempz(2,2,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(2,2,k)-tempz(1,1,k));
 %         Ez(1,Ny+1,k) = tempz(2,Ny,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(2,Ny,k)-tempz(1,Ny+1,k));
 %         Ez(Nx+1,Ny+1,k) = tempz(Nx,Ny,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(Nx,Ny,k)-tempz(Nx+1,Ny+1,k));
 %         Ez(Nx+1,1,k) = tempz(Nx,2,k)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(Nx,2,k)-tempz(Nx+1,1,k));
 %     end
-%     % µã
-%     % ½Çµã´¦ÎÞµç´Å³¡·ÖÁ¿½Úµã£¬²»ÓÃ´¦Àí
+%     % ï¿½ï¿½
+%     % ï¿½Çµã´¦ï¿½Þµï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµã£¬ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½
 
-    % Mur¶þ½×£¨ÓÅ»¯£©
-    % Ãæ
-    % Ç°Ãæ
+    % Murï¿½ï¿½ï¿½×£ï¿½ï¿½Å»ï¿½ï¿½ï¿½
+    % ï¿½ï¿½
+    % Ç°ï¿½ï¿½
     for j = 3:Ny-2
         for k = 3:Nz-1
             Ey(Nx+1,j,k) = -temp2y(Nx,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ey(Nx,j,k)+temp2y(Nx+1,j,k))+ ...
@@ -428,7 +428,7 @@ for n=1:Nt
                         
         end
     end
-    % ºóÃæ
+    % ï¿½ï¿½ï¿½ï¿½
     for j = 3:Ny-2
         for k = 3:Nz-1
             Ey(1,j,k) = -temp2y(2,j,k)+((c0*dt-dx)/(c0*dt+dx))*(Ey(2,j,k)+temp2y(1,j,k))+ ...
@@ -449,7 +449,7 @@ for n=1:Nt
                         (tempz(1,j,k+1)-2*tempz(1,j,k)+tempz(1,j,k-1)+tempz(2,j,k+1)-2*tempz(2,j,k)+tempz(2,j,k-1));
         end
     end
-    % ×óÃæ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 3:Nx-2
         for k = 3:Nz-1
             Ex(i,1,k) = -temp2x(i,2,k)+((c0*dt-dy)/(c0*dt+dy))*(Ex(i,2,k)+temp2x(i,1,k))+ ...
@@ -470,7 +470,7 @@ for n=1:Nt
                         (tempz(i,1,k+1)-2*tempz(i,1,k)+tempz(i,1,k-1)+tempz(i,2,k+1)-2*tempz(i,2,k)+tempz(i,2,k-1));
         end
     end
-    % ÓÒÃæ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 3:Nx-2
         for k = 3:Nz-1
             Ex(i,Ny+1,k) = -temp2x(i,Ny,k)+((c0*dt-dy)/(c0*dt+dy))*(Ex(i,Ny,k)+temp2x(i,Ny+1,k))+ ...
@@ -491,7 +491,7 @@ for n=1:Nt
                            (tempz(i,Ny+1,k+1)-2*tempz(i,Ny+1,k)+tempz(i,Ny+1,k-1)+tempz(i,Ny,k+1)-2*tempz(i,Ny,k)+tempz(i,Ny,k-1));
         end
     end
-    % ÉÏÃæ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 3:Nx-2
         for j = 3:Ny-1
             Ex(i,j,Nz+1) = -temp2x(i,j,Nz)+((c0*dt-dz)/(c0*dt+dz))*(Ex(i,j,Nz)+temp2x(i,j,Nz+1))+ ...
@@ -512,7 +512,7 @@ for n=1:Nt
                            (tempy(i,j+1,Nz+1)-2*tempy(i,j,Nz+1)+tempy(i,j-1,Nz+1)+tempy(i,j+1,Nz)-2*tempy(i,j,Nz)+tempy(i,j-1,Nz));
         end
     end
-    % ÏÂÃæ
+    % ï¿½ï¿½ï¿½ï¿½
     for i = 3:Nx-2
         for j = 3:Ny-1
             Ex(i,j,1) = -temp2x(i,j,2)+((c0*dt-dz)/(c0*dt+dz))*(Ex(i,j,2)+temp2x(i,j,1))+ ...
@@ -533,29 +533,29 @@ for n=1:Nt
                         (tempy(i,j+1,1)-2*tempy(i,j,1)+tempy(i,j-1,1)+tempy(i,j+1,2)-2*tempy(i,j,2)+tempy(i,j-1,2));
         end
     end
-    % ±ß
-    % x·½Ïò
+    % ï¿½ï¿½
+    % xï¿½ï¿½ï¿½ï¿½
     for i = 3:Nx-2
         Ex(i,2,2) = tempx(i,3,3)+((c0*dt-norm([dy,dz]))/(c0*dt+norm([dy,dz])))*(Ex(i,3,3)-tempx(i,2,2));
         Ex(i,2,Nz) = tempx(i,3,Nz-1)+((c0*dt-norm([dy,dz]))/(c0*dt+norm([dy,dz])))*(Ex(i,3,Nz-1)-tempx(i,2,Nz));
         Ex(i,Ny,Nz) = tempx(i,Ny-1,Nz-1)+((c0*dt-norm([dy,dz]))/(c0*dt+norm([dy,dz])))*(Ex(i,Ny-1,Nz-1)-tempx(i,Ny,Nz));
         Ex(i,Ny,2) = tempx(i,Ny-1,3)+((c0*dt-norm([dy,dz]))/(c0*dt+norm([dy,dz])))*(Ex(i,Ny-1,3)-tempx(i,Ny,2));
     end
-    % y·½Ïò
+    % yï¿½ï¿½ï¿½ï¿½
     for j = 3:Ny-2
         Ey(2,j,2) = tempy(3,j,3)+((c0*dt-norm([dx,dz]))/(c0*dt+norm([dx,dz])))*(Ey(3,j,3)-tempy(2,j,2));
         Ey(2,j,Nz) = tempy(3,j,Nz-1)+((c0*dt-norm([dx,dz]))/(c0*dt+norm([dx,dz])))*(Ey(3,j,Nz-1)-tempy(2,j,Nz));
         Ey(Nx,j,Nz) = tempy(Nx-1,j,Nz-1)+((c0*dt-norm([dx,dz]))/(c0*dt+norm([dx,dz])))*(Ey(Nx-1,j,Nz-1)-tempy(Nx,j,Nz));
         Ey(Nx,j,2) = tempy(Nx-1,j,3)+((c0*dt-norm([dx,dz]))/(c0*dt+norm([dx,dz])))*(Ey(Nx-1,j,3)-tempy(Nx,j,2));
     end
-    % z·½Ïò
+    % zï¿½ï¿½ï¿½ï¿½
     for k = 3:Nz-2
         Ez(2,2,k) = tempz(3,3,k)+((c0*dt-norm([dx,dy]))/(c0*dt+norm([dx,dy])))*(Ez(3,3,k)-tempz(2,2,k));
         Ez(2,Ny,k) = tempz(3,Ny-1,k)+((c0*dt-norm([dx,dy]))/(c0*dt+norm([dx,dy])))*(Ez(3,Ny-1,k)-tempz(2,Ny,k));
         Ez(Nx,Ny,k) = tempz(Nx-1,Ny-1,k)+((c0*dt-norm([dx,dy]))/(c0*dt+norm([dx,dy])))*(Ez(Nx-1,Ny-1,k)-tempz(Nx,Ny,k));
         Ez(Nx,2,k) = tempz(Nx-1,3,k)+((c0*dt-norm([dx,dy]))/(c0*dt+norm([dx,dy])))*(Ez(Nx-1,3,k)-tempz(Nx,2,k));
     end
-    % ÆäËû
+    % ï¿½ï¿½ï¿½ï¿½
     
     
     
@@ -563,14 +563,14 @@ for n=1:Nt
     temp2y = tempy;
     temp2z = tempz;
 
-    % Visualize fields ¿ÉÊÓ»¯³¡
+    % Visualize fields ï¿½ï¿½ï¿½Ó»ï¿½ï¿½ï¿½
     imagesc(Ez(:,:,Jz)');
     shading flat;caxis([-1.0 1.0]);axis image;axis xy; 
     title(['Ez(i,j,k=',int2str(Jz),'),step = ',int2str(n)]);xlabel('i');ylabel('j');
-    pause(0.01)
+    drawnow;
 
 end
 
 %***********************************************************************
-% END TIME-STEPPING LOOP ½áÊøÑ­»·
+% END TIME-STEPPING LOOP ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½
 %***********************************************************************
