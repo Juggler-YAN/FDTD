@@ -3,50 +3,49 @@
 % free space. The excitation source is a harmonic field source. The Mur
 % absorbing boundary condition is used as the boundary condition.
 
-% �ó�����ʾ�˶�άFDTDģ��(TM)��
-% �ó�����Ҫģ���˵�Ų������ɿռ��еĴ���������ԴΪʱг��Դ���߽�����������
-% Mur���ձ߽�������
+% 该程序演示了二维FDTD模拟（TM）。该程序主要模拟电磁波在自由空间中
+% 的传播。激励源为时谐场源。边界条件为Mur吸收边界条件。
 
 clc;
 clear;
 close all;
 
 %***********************************************************************
-% Fundamental constants ��������
+% Fundamental constants 基本常数
 %***********************************************************************
 
-eps0 = 8.85e-12;	% permittivity of vacuum ��ս�糣��
-mu0 = 4*pi*1e-7;	% permeability of vacuum ��մŵ���
-c0 = 1/sqrt(mu0*eps0);	% speed of light ����
+eps0 = 8.85e-12;	% permittivity of vacuum 真空介电常数
+mu0 = 4*pi*1e-7;	% permeability of vacuum 真空磁导率
+c0 = 1/sqrt(mu0*eps0);	% speed of light 光速
 
 %***********************************************************************
-% Mesh parameters �������
+% Mesh parameters 网格参数
 %***********************************************************************
 
-Nx = 50;	% number of cells in 2D problem space ��ά����ռ��еĵ�Ԫ��
+Nx = 50;	% number of cells in 2D problem space 二维问题空间中的单元数
 Ny = 50;
-Nt = 150;	% number of iterations ��������
-dx = 3e-2;	% space step �ռ䲽��
+Nt = 150;	% number of iterations 迭代次数
+dx = 3e-2;	% space step 空间步长
 dy = 3e-2;
-dt = 1/(2.0*c0*sqrt(1/dx^2+1/dy^2));	%time step ʱ�䲽��
+dt = 1/(2.0*c0*sqrt(1/dx^2+1/dy^2));	%time step 时间步长
 
 %***********************************************************************
-% Material properties ý������
+% Material properties 媒质特性
 %***********************************************************************
 
-epsR = 1;	% relative permittivity ��Խ�糣��
-muR = 1;	% relative permeability ��Դŵ���
-sigE = 0;	% electric conductivity �絼��
-sigH = 0;	% effective magnetism conductivity ��Ч�ŵ���
+epsR = 1;	% relative permittivity 相对介电常数
+muR = 1;	% relative permeability 相对电导率
+sigE = 0;	% electric conductivity 电导率
+sigH = 0;	% effective magnetism conductivity 等效磁导率
 
 %***********************************************************************
-% Boundary conditions �߽�����
+% Boundary conditions 边界条件
 %***********************************************************************
 
-% PEC�߽�����
+% PEC边界条件
 
 %***********************************************************************
-% Updating coefficients ����ϵ��
+% Updating coefficients 更新系数
 %***********************************************************************
 
 CA = (eps0*epsR/dt-sigE/2)/(eps0*epsR/dt+sigE/2);
@@ -55,15 +54,15 @@ CP = (mu0*muR/dt-sigH/2)/(mu0*muR/dt+sigH/2);
 CQ = 1/(mu0*muR/dt+sigH/2);
 
 %***********************************************************************
-% Source excitation Դ����
+% Source excitation 源激励
 %***********************************************************************
 
-fre = 1.0e+9; % frequency ����ԴƵ��
-Jx = round(Nx/2);	% position ����Դλ��
+fre = 1.0e+9; % frequency 频率
+Jx = round(Nx/2);	% position 位置
 Jy = round(Ny/2);
 
 %***********************************************************************
-% Initializing field arrays ��ʼ����
+% Initializing field arrays 初始化场
 %***********************************************************************
 
 Hx = zeros(Nx+1,Ny);
@@ -71,16 +70,16 @@ Hy = zeros(Nx,Ny+1);
 Ez = zeros(Nx+1,Ny+1);
 
 %***********************************************************************
-% BEGIN TIME-STEPPING LOOP ��ʼѭ��
+% BEGIN TIME-STEPPING LOOP 开始迭代
 %***********************************************************************
 
 temp2z = Ez;
 for n=1:Nt
     
-    % Set excitation source ���ü���Դ
+    % Set excitation source 设置激励源
     Ez(Jx,Jy) = sin(2*pi*fre*n*dt);
     
-    % Update magnetic field ���´ų�
+    % Update magnetic field 更新磁场
     % Hx
     for i = 2:Nx
         for j = 1:Ny
@@ -96,7 +95,7 @@ for n=1:Nt
 
     tempz = Ez;
     
-    % Update electric field ���µ糡
+    % Update electric field 更新电场
     % Ez
     for i = 2:Nx
         for j = 2:Ny
@@ -105,69 +104,69 @@ for n=1:Nt
         end
     end
          
-    % Set boundary conditions ���ñ߽�����
-    % ���
-    % һ��Mur
-%     % ��߽�
+    % Set boundary conditions 设置边界条件
+    % 边
+    % 一阶Mur
+%     % 左
 %     for j = 2:Ny
 %         Ez(1,j) = tempz(2,j)+((c0*dt-dx)/(c0*dt+dx))*(Ez(2,j)-tempz(1,j));
 %     end
-%     % �ұ߽�
+%     % 右
 %     for j = 2:Ny
 %         Ez(Nx+1,j) = tempz(Nx,j)+((c0*dt-dx)/(c0*dt+dx))*(Ez(Nx,j)-tempz(Nx+1,j));
 %     end
-%     % �±߽�
+%     % 下
 %     for i = 2:Nx
 %         Ez(i,1) = tempz(i,2)+((c0*dt-dy)/(c0*dt+dy))*(Ez(i,2)-tempz(i,1));
 %     end
-%     % �ϱ߽�
+%     % 上
 %     for i = 2:Nx
 %         Ez(i,Ny+1) = tempz(i,Ny)+((c0*dt-dy)/(c0*dt+dy))*(Ez(i,Ny)-tempz(i,Ny+1));
 %     end
-    % ����Mur
-    % ��߽�
+    % 二阶Mur
+    % 左
     for j = 2:Ny
         Ez(1,j) = tempz(2,j)+((c0*dt-dx)/(c0*dt+dx))*(Ez(2,j)-tempz(1,j))- ...
                   (c0*c0*mu0*muR*dt)/(2*(c0*dt+dx))*(dx/dy)*(Hx(1,j)-Hx(1,j-1)+Hx(2,j)-Hx(2,j-1));
     end
-    % �ұ߽�
+    % 右
     for j = 2:Ny
         Ez(Nx+1,j) = tempz(Nx,j)+((c0*dt-dx)/(c0*dt+dx))*(Ez(Nx,j)-tempz(Nx+1,j))- ...
                      (c0*c0*mu0*muR*dt)/(2*(c0*dt+dx))*(dx/dy)*(Hx(Nx+1,j)-Hx(Nx+1,j-1)+Hx(Nx,j)-Hx(Nx,j-1));
     end
-    % �±߽�
+    % 下
     for i = 2:Nx
         Ez(i,1) = tempz(i,2)+((c0*dt-dy)/(c0*dt+dy))*(Ez(i,2)-tempz(i,1))+ ...
                   (c0*c0*mu0*muR*dt)/(2*(c0*dt+dy))*(dy/dx)*(Hy(i,1)-Hy(i-1,1)+Hy(i,2)-Hy(i-1,2));
     end
-    % �ϱ߽�
+    % 上
     for i = 2:Nx
         Ez(i,Ny+1) = tempz(i,Ny)+((c0*dt-dy)/(c0*dt+dy))*(Ez(i,Ny)-tempz(i,Ny+1))+ ...
                      (c0*c0*mu0*muR*dt)/(2*(c0*dt+dy))*(dy/dx)*(Hy(i,Ny+1)-Hy(i-1,Ny+1)+Hy(i,Ny)-Hy(i-1,Ny));
     end
-    % �ǵ㣨����һ��
-    % ���½�
+    % 角点
+	% 方法一
+    % 左下
     Ez(1,1)=tempz(2,2)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(2,2)-tempz(1,1));
-    % ���Ͻ�
+    % 左上
     Ez(1,Ny+1)=tempz(2,Ny)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(2,Ny)-tempz(1,Ny+1));
-    % ���Ͻ�
+    % 右上
     Ez(Nx+1,Ny+1)=tempz(Nx,Ny)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(Nx,Ny)-tempz(Nx+1,Ny+1));
-    % ���½�
+    % 右下
     Ez(Nx+1,1)=tempz(Nx,2)+((c0*dt-sqrt(dx^2+dy^2))/(c0*dt+sqrt(dx^2+dy^2)))*(Ez(Nx,2)-tempz(Nx+1,1));
-    % �ǵ㣨��������
-    % �÷�����Ҫ��������ʱ���ǰ�ĳ�ǿ������ר��������һ��ȫ�ֱ���
-%     % ���½�
+    % 方法二
+%     % 左下
 %     Ez(1,1) = (1-sqrt(2)*c0*dt/sqrt(dx^2+dy^2))*temp2z(1,1)+sqrt(2)*c0*dt/sqrt(dx^2+dy^2)*temp2z(2,2);
-%     % ���Ͻ�
+%     % 左上
 %     Ez(1,Ny+1) = (1-sqrt(2)*c0*dt/sqrt(dx^2+dy^2))*temp2z(1,Ny+1)+sqrt(2)*c0*dt/sqrt(dx^2+dy^2)*temp2z(2,Ny);
-%     % ���Ͻ�
+%     % 右上
 %     Ez(Nx+1,Ny+1) = (1-sqrt(2)*c0*dt/sqrt(dx^2+dy^2))*temp2z(Nx+1,Ny+1)+sqrt(2)*c0*dt/sqrt(dx^2+dy^2)*temp2z(Nx,Ny);
-%     % ���½�
+%     % 右下
 %     Ez(Nx+1,1) = (1-sqrt(2)*c0*dt/sqrt(dx^2+dy^2))*temp2z(Nx+1,1)+sqrt(2)*c0*dt/sqrt(dx^2+dy^2)*temp2z(Nx,2);
     
     temp2z = tempz;
     
-    % Visualize fields ���ӻ���    
+    % Visualize fields 可视化场   
     imagesc(Ez');
     shading flat;caxis([-1.0 1.0]);axis image;axis xy; 
     title(['Ez, step ',int2str(n)]);xlabel('i');ylabel('j');
@@ -176,5 +175,5 @@ for n=1:Nt
 end
 
 %***********************************************************************
-% END TIME-STEPPING LOOP ����ѭ��
+% END TIME-STEPPING LOOP 终止迭代
 %***********************************************************************

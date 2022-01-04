@@ -4,7 +4,7 @@
 % The simplest PEC boundary condition is used as the boundary condition.
 
 % 该程序演示了一维FDTD模拟。该程序主要模拟电磁波在自由空间中z方向上的传播。
-% 激励源为时谐场源。采用最简单的PEC边界条件作为边界条件。
+% 激励源为时谐场源。边界条件为最简单的PEC边界条件。
 
 clc;
 clear;
@@ -55,8 +55,8 @@ CQ = 1/(mu0*muR/dt+sigH/2);
 % Source excitation 源激励
 %***********************************************************************
 
-fre = 1.0e+9; % frequency 源激励频率
-Jz = round(Nz/2);   % position 源激励位置
+fre = 1.0e+9; % frequency 频率
+Jz = round(Nz/2);   % position 位置
 
 %***********************************************************************
 % Initializing field arrays 初始化场
